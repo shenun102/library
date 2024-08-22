@@ -1,0 +1,103 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #cbd5e1;
+}
+
+header {
+  height: 15%;
+  width: 100%;
+  background-color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 600;
+  padding-left: 50px;
+  color: white;
+}
+
+.add-book {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 50px;
+}
+
+.add-book > button {
+  background-color: white;
+  border: 0;
+  border-radius: 10px;
+  height: 40%;
+  width: 30%;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+}
+
+.reading-list {
+  width: 100%;
+  height: auto;
+  padding-top: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.books-container {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.book-entry {
+  padding: 10px;
+  background-color: white;
+  width: 25%;
+  height: 40%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10%;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.author {
+  font-weight: 400;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.pages {
+  font-size: 0.9rem;
+}
+
+.button-not-read,
+.button-remove {
+  width: 70%;
+  height: 15%;
+  background-color: #475569;
+  color: white;
+  border: 0;
+  border-radius: 16px;
+}
+/* .book-entry */
