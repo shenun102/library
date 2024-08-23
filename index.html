@@ -25,15 +25,15 @@
             <form class="book-form" method="post">
               <div class="input-title input">
                 <label for="title">Title</label>
-                <input type="text" id="title" />
+                <input type="text" id="title" required minlength="2" />
               </div>
               <div class="input-author input">
                 <label for="author">Author</label>
-                <input type="text" id="author" />
+                <input type="text" id="author" required minlength="2" />
               </div>
               <div class="input-page input">
                 <label for="pages">Pages</label>
-                <input type="text" id="pages" />
+                <input type="text" id="pages" required minlength="1" />
               </div>
               <div class="read-status">
                 <label for="read">Have Read</label>
@@ -49,7 +49,7 @@
     <main>
       <div class="reading-list">Reading List</div>
       <div class="books-container">
-        <div class="book-entry">
+        <!-- <div class="book-entry">
           <div class="text-content">
             <div class="title">Placeholder</div>
             <div class="author">Placeholder</div>
@@ -59,7 +59,7 @@
             <button class="button-not-read">Not Read</button>
             <button class="button-remove">Remove Book</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </main>
   </body>

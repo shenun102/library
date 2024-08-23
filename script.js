@@ -8,6 +8,7 @@ const openModalButtons = document.querySelectorAll("[data-modal-target]");
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById("overlay");
 // New Book Form Selectors
+const bookForm = document.querySelector(".book-form");
 const inputTitle = document.querySelector("#title");
 const inputAuthor = document.querySelector("#author");
 const inputPages = document.querySelector("#pages");
@@ -45,8 +46,9 @@ overlay.addEventListener("click", () => {
   });
 });
 
-// Form submission
-submitBtn.addEventListener("click", addBookToLibrary);
+// Form submission, its better to listen for the form's submission event instead
+// submitBtn.addEventListener("click", addBookToLibrary);
+bookForm.addEventListener("submit", addBookToLibrary);
 
 // Book Entry Constructor Function
 function Book(title, author, pages, readOrNot) {
@@ -56,22 +58,61 @@ function Book(title, author, pages, readOrNot) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.readStatus = !readOrNot ? "Read" : "Unread";
+  // Determines whether the value of readStatus is read or unread depending
+  // on whether readStatus.checked returns true or false.
+  this.readStatus = readOrNot ? "Read" : "Unread";
 }
 
+// Function creates book object and stores it in library array
 function addBookToLibrary(e) {
   // Stops the submit button of the form from reloading page
   e.preventDefault();
   console.log(e.target);
 
+  // Creates properties for a new book object.
   const title = inputTitle.value;
   const author = inputAuthor.value;
   const pages = inputPages.value;
-  const readOrNot = readStatus.value;
+  // Stores true or false depending on whether the checkbox is checked or unchecked
+  const readOrNot = readStatus.checked;
+
   const newBook = new Book(title, author, pages, readOrNot);
   console.log(newBook);
   myLibrary.push(newBook);
-  console.log(myLibrary);
+  // console.log(myLibrary);
+  // Reset the form
+  bookForm.reset();
+  // Display new book on page
+  displayBook();
+  // Close the modal after submission
+  const modal = document.querySelector(".modal.active");
+  closeModal(modal);
+}
+
+// Display book function
+
+function displayBook() {
+  // Select the book entries container
+  const bookContainer = document.querySelector(".books-container");
+  // clears the container's innerHTML
+  bookContainer.innerHTML = "";
+  // Loop through library and display books on page
+  myLibrary.forEach((book) => {
+    // HTML for new book entry
+    const bookEntry = `<div class="book-entry">
+          <div class="text-content">
+            <div class="title">${book.title}</div>
+            <div class="author">${book.author}</div>
+            <div class="pages">${book.pages}</div>
+          </div>
+          <div class="button-container">
+            <button class="button-not-read">${book.readStatus}</button>
+            <button class="button-remove">Remove Book</button>
+          </div>
+        </div>`;
+    // Insert the html element
+    bookContainer.insertAdjacentHTML("beforeend", bookEntry);
+  });
 }
 
 // Open modal function
@@ -81,6 +122,7 @@ function openModal(modal) {
   overlay.classList.add("active");
 }
 
+// Close modal function
 function closeModal(modal) {
   if (modal == null) return;
   modal.classList.remove("active");
