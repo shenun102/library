@@ -40,6 +40,13 @@ header {
   width: 15rem;
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-book > button:hover {
+  background-color: #cbd5e1;
+  transform: scale(1.1);
 }
 
 main {
@@ -123,6 +130,14 @@ main {
   color: white;
   border: 0;
   border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover and click effects */
+}
+
+.button-not-read:hover,
+.button-remove:hover {
+  background-color: #0f172a;
+  transform: scale(1.05);
 }
 
 /* Modal */

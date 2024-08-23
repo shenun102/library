@@ -85,7 +85,7 @@ function Book(title, author, pages, readOrNot) {
   this.pages = pages;
   // Determines whether the value of readStatus is read or unread depending
   // on whether readStatus.checked returns true or false.
-  this.readStatus = readOrNot ? "Read" : "Unread";
+  this.readStatus = readOrNot ? "Read" : "Not Read";
   // Assigns the book an ID based on the length of myLibrary array
   this.id = bookCount;
 }
@@ -130,7 +130,7 @@ function displayBook() {
           <div class="text-content">
             <div class="title">${book.title}</div>
             <div class="author">${book.author}</div>
-            <div class="pages">${book.pages}</div>
+            <div class="pages">${book.pages} pages</div>
           </div>
           <div class="button-container">
             <button class="button-not-read">${book.readStatus}</button>
