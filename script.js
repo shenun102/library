@@ -1,6 +1,8 @@
 "use strict";
 
-const myLibrary = [];
+const myLibrary = [
+  { title: "1", author: "2", pages: "3", readStatus: "Read", id: 0 },
+];
 
 const entryButton = document.querySelector(".new-entry");
 // Includes the scenario if there were to be multiple modal buttons
@@ -15,6 +17,13 @@ const inputPages = document.querySelector("#pages");
 const readStatus = document.querySelector("#read");
 // Submit button for new book form
 const submitBtn = document.querySelector(".submit-book");
+
+// Number of books
+let bookCount = myLibrary.length;
+
+displayBook();
+
+// Event Listeners
 
 // For every modal button add a click event listener
 openModalButtons.forEach((button) => {
@@ -50,6 +59,10 @@ overlay.addEventListener("click", () => {
 // submitBtn.addEventListener("click", addBookToLibrary);
 bookForm.addEventListener("submit", addBookToLibrary);
 
+document.addEventListener("click", removeBook);
+
+// Functions
+
 // Book Entry Constructor Function
 function Book(title, author, pages, readOrNot) {
   if (!new.target) {
@@ -61,6 +74,8 @@ function Book(title, author, pages, readOrNot) {
   // Determines whether the value of readStatus is read or unread depending
   // on whether readStatus.checked returns true or false.
   this.readStatus = readOrNot ? "Read" : "Unread";
+  // Assigns the book an ID based on the length of myLibrary array
+  this.id = bookCount;
 }
 
 // Function creates book object and stores it in library array
@@ -77,6 +92,8 @@ function addBookToLibrary(e) {
   const readOrNot = readStatus.checked;
 
   const newBook = new Book(title, author, pages, readOrNot);
+  bookCount++;
+  console.log(bookCount, " Books");
   console.log(newBook);
   myLibrary.push(newBook);
   // console.log(myLibrary);
@@ -99,7 +116,7 @@ function displayBook() {
   // Loop through library and display books on page
   myLibrary.forEach((book) => {
     // HTML for new book entry
-    const bookEntry = `<div class="book-entry">
+    const bookEntry = `<div data-book-id="${book.id}" class="book-entry">
           <div class="text-content">
             <div class="title">${book.title}</div>
             <div class="author">${book.author}</div>
@@ -113,6 +130,26 @@ function displayBook() {
     // Insert the html element
     bookContainer.insertAdjacentHTML("beforeend", bookEntry);
   });
+}
+
+// Remove book function
+
+function removeBook(e) {
+  if (!e.target.classList.contains("button-remove")) return;
+  // Remove by removing the element from the library and redisplaying
+  // Use closest() to find the nearest .book-entry ancestor
+  const bookEntry = e.target.closest(".book-entry");
+  console.log(bookEntry);
+  // Get the value of the data-book-id attribute
+  const bookToRemove = bookEntry.getAttribute("data-book-id");
+  console.log("ID of the book", bookToRemove);
+  console.log(myLibrary);
+  // Search for the matching book
+  const bookId = myLibrary.findIndex((book) => book.id === +bookToRemove);
+  console.log("Index of bookID", bookId);
+  myLibrary.splice(bookId, 1);
+  displayBook();
+  console.log(myLibrary);
 }
 
 // Open modal function
