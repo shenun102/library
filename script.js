@@ -1,7 +1,13 @@
 "use strict";
 
 const myLibrary = [
-  { title: "1", author: "2", pages: "3", readStatus: "Read", id: 0 },
+  {
+    title: "Lord of the Mysteries",
+    author: "Cuttlefish That Loves Diving",
+    pages: "7000",
+    readStatus: "Read",
+    id: 0,
+  },
 ];
 
 const entryButton = document.querySelector(".new-entry");
@@ -15,6 +21,8 @@ const inputTitle = document.querySelector("#title");
 const inputAuthor = document.querySelector("#author");
 const inputPages = document.querySelector("#pages");
 const readStatus = document.querySelector("#read");
+// Select the book entries container
+const bookContainer = document.querySelector(".books-container");
 // Submit button for new book form
 const submitBtn = document.querySelector(".submit-book");
 
@@ -59,7 +67,11 @@ overlay.addEventListener("click", () => {
 // submitBtn.addEventListener("click", addBookToLibrary);
 bookForm.addEventListener("submit", addBookToLibrary);
 
-document.addEventListener("click", removeBook);
+// Event delegation to listen for all remove book buttons
+bookContainer.addEventListener("click", removeBook);
+
+// Event delegation to listen for read/unread button
+bookContainer.addEventListener("click", toggleRead);
 
 // Functions
 
@@ -82,7 +94,6 @@ function Book(title, author, pages, readOrNot) {
 function addBookToLibrary(e) {
   // Stops the submit button of the form from reloading page
   e.preventDefault();
-  console.log(e.target);
 
   // Creates properties for a new book object.
   const title = inputTitle.value;
@@ -91,12 +102,13 @@ function addBookToLibrary(e) {
   // Stores true or false depending on whether the checkbox is checked or unchecked
   const readOrNot = readStatus.checked;
 
+  // Create new book object
   const newBook = new Book(title, author, pages, readOrNot);
+  // Increment book counter
   bookCount++;
-  console.log(bookCount, " Books");
-  console.log(newBook);
+
+  // add new book object to array
   myLibrary.push(newBook);
-  // console.log(myLibrary);
   // Reset the form
   bookForm.reset();
   // Display new book on page
@@ -109,8 +121,6 @@ function addBookToLibrary(e) {
 // Display book function
 
 function displayBook() {
-  // Select the book entries container
-  const bookContainer = document.querySelector(".books-container");
   // clears the container's innerHTML
   bookContainer.innerHTML = "";
   // Loop through library and display books on page
@@ -136,20 +146,33 @@ function displayBook() {
 
 function removeBook(e) {
   if (!e.target.classList.contains("button-remove")) return;
-  // Remove by removing the element from the library and redisplaying
+  const bookId = findIdIndex(e.target);
+  // Delete the corresponding book object
+  myLibrary.splice(bookId, 1);
+  // redisplay array
+  displayBook();
+}
+
+// toggle read status function
+
+function toggleRead(e) {
+  if (!e.target.classList.contains("button-not-read")) return;
+  const bookId = findIdIndex(e.target);
+  console.log("Hello", bookId);
+  myLibrary[bookId].readStatus =
+    e.target.textContent === "Read" ? "Not Read" : "Read";
+  displayBook();
+}
+
+// Function to find the index of the book entry just pressed
+
+function findIdIndex(button) {
   // Use closest() to find the nearest .book-entry ancestor
-  const bookEntry = e.target.closest(".book-entry");
-  console.log(bookEntry);
+  const bookEntry = button.closest(".book-entry");
   // Get the value of the data-book-id attribute
   const bookToRemove = bookEntry.getAttribute("data-book-id");
-  console.log("ID of the book", bookToRemove);
-  console.log(myLibrary);
   // Search for the matching book
-  const bookId = myLibrary.findIndex((book) => book.id === +bookToRemove);
-  console.log("Index of bookID", bookId);
-  myLibrary.splice(bookId, 1);
-  displayBook();
-  console.log(myLibrary);
+  return myLibrary.findIndex((book) => book.id === +bookToRemove);
 }
 
 // Open modal function
