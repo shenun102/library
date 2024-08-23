@@ -1,10 +1,19 @@
 "use strict";
 
+const myLibrary = [];
+
 const entryButton = document.querySelector(".new-entry");
 // Includes the scenario if there were to be multiple modal buttons
 const openModalButtons = document.querySelectorAll("[data-modal-target]");
 const closeModalButtons = document.querySelectorAll("[data-close-button]");
 const overlay = document.getElementById("overlay");
+// New Book Form Selectors
+const inputTitle = document.querySelector("#title");
+const inputAuthor = document.querySelector("#author");
+const inputPages = document.querySelector("#pages");
+const readStatus = document.querySelector("#read");
+// Submit button for new book form
+const submitBtn = document.querySelector(".submit-book");
 
 // For every modal button add a click event listener
 openModalButtons.forEach((button) => {
@@ -36,29 +45,33 @@ overlay.addEventListener("click", () => {
   });
 });
 
-entryButton.addEventListener("click", addBookToLibrary);
-const myLibrary = [];
+// Form submission
+submitBtn.addEventListener("click", addBookToLibrary);
 
 // Book Entry Constructor Function
-function Book(title, author, pages) {
+function Book(title, author, pages, readOrNot) {
   if (!new.target) {
     throw Error("Must use the new operator to call the function!");
   }
   this.title = title;
   this.author = author;
   this.pages = pages;
+  this.readStatus = !readOrNot ? "Read" : "Unread";
 }
 
 function addBookToLibrary(e) {
+  // Stops the submit button of the form from reloading page
+  e.preventDefault();
   console.log(e.target);
-  // console.log("I want to add a new book");
-  // const title = prompt("What is the title of the book?");
-  // const author = prompt("Who is the author of the book?");
-  // const pages = prompt("How many pages does the book have?");
-  // const newBook = new Book(title, author, pages);
-  // console.log(newBook);
-  // myLibrary.push(newBook);
-  // console.log(myLibrary);
+
+  const title = inputTitle.value;
+  const author = inputAuthor.value;
+  const pages = inputPages.value;
+  const readOrNot = readStatus.value;
+  const newBook = new Book(title, author, pages, readOrNot);
+  console.log(newBook);
+  myLibrary.push(newBook);
+  console.log(myLibrary);
 }
 
 // Open modal function
