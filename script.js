@@ -25,7 +25,7 @@ class Book {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.readOrNot = readOrNot;
+    this.readStatus = readOrNot;
     this.id = id;
   }
 }
@@ -81,3 +81,105 @@ class Library {
   }
 }
 
+// Instantiate Library
+const myLibrary = new Library();
+
+// Create new book
+const initialBook = new Book(
+  "Lord of the Mysteries",
+  "Cuttlefish That Loves Diving",
+  7000,
+  "Read",
+  0
+);
+
+// Add initial book to the library
+myLibrary.addBook(initialBook);
+// Display initial book
+myLibrary.displayBooks();
+console.log(initialBook);
+
+// Modal
+// For every open modal button add a click event listener
+openModalButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const modal = document.querySelector(button.dataset.modalTarget);
+    openModal(modal);
+  });
+});
+
+// For every close modal button add a click event listener
+closeModalButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const modal = button.closest(".modal");
+    closeModal(modal);
+  });
+});
+
+// Close the modal when the overlay is clicked
+overlay.addEventListener("click", () => {
+  const modals = document.querySelectorAll(".modal.active");
+  modals.forEach((modal) => {
+    closeModal(modal);
+  });
+});
+
+// Listen for Form Submission
+bookForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  // Creates properties for a new book object.
+  const title = inputTitle.value;
+  const author = inputAuthor.value;
+  const pages = inputPages.value;
+  const readOrNot = readStatus.checked ? "Read" : "Not Read";
+
+  // Create new book object
+  const newBook = new Book(
+    title,
+    author,
+    pages,
+    readOrNot,
+    myLibrary.bookCount
+  );
+
+  // Add book
+  myLibrary.addBook(newBook);
+
+  // Display Book
+  myLibrary.displayBooks();
+
+  // Reset the form
+  bookForm.reset();
+
+  // Close modal after submission
+  const modal = document.querySelector(".modal.active");
+  closeModal(modal);
+});
+
+// Event delegation to listen for all remove book buttons
+bookContainer.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("button-remove")) return;
+  const bookId = parseInt(e.target.closest(".book-entry").dataset.bookId, 10);
+  myLibrary.removeBook(bookId);
+});
+
+// Event delegation to listen for all read/unread buttons
+bookContainer.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("button-not-read")) return;
+  const bookId = parseInt(e.target.closest(".book-entry").dataset.bookId, 10);
+  myLibrary.toggleRead(bookId);
+});
+
+// Open modal function
+function openModal(modal) {
+  if (modal == null) return;
+  modal.classList.add("active");
+  overlay.classList.add("active");
+}
+
+// Close modal function
+function closeModal(modal) {
+  if (modal == null) return;
+  modal.classList.remove("active");
+  overlay.classList.remove("active");
+}
