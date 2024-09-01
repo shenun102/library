@@ -127,6 +127,12 @@ overlay.addEventListener("click", () => {
 // Listen for Form Submission
 bookForm.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  // Check if the form is valid
+  if (!bookForm.checkValidity()) {
+    bookForm.reportValidity();
+    return;
+  }
   // Creates properties for a new book object.
   const title = inputTitle.value;
   const author = inputAuthor.value;
@@ -183,3 +189,17 @@ function closeModal(modal) {
   modal.classList.remove("active");
   overlay.classList.remove("active");
 }
+
+// Custom validation for the "pages" field
+inputPages.addEventListener("input", function () {
+  const pagesValue = inputPages.value;
+
+  // Check if the input contains any non-numeric characters
+  if (!/^\d+$/.test(pagesValue)) {
+    inputPages.setCustomValidity("Please enter a valid NUMBER of pages.");
+  } else if (pagesValue < 1) {
+    inputPages.setCustomValidity("The number of pages must be at least 1.");
+  } else {
+    inputPages.setCustomValidity(""); // Reset custom validity
+  }
+});

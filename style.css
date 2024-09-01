@@ -252,3 +252,8 @@ main {
   opacity: 1;
   pointer-events: all;
 }
+
+
+.input-invalid {
+  border: 2px solid red;
+}
